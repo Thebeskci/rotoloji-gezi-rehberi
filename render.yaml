@@ -1,0 +1,57 @@
+services:
+  - type: web
+    name: rotoloji-streamlit
+    runtime: python
+    buildCommand: pip install -e .
+    startCommand: ./run_streamlit_live.sh
+    envVars:
+      - key: STREAMLIT_DATA_MODE
+        value: snapshot
+  - type: web
+    name: rotayz-strapi
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_CLIENT
+        value: postgres
+      - key: DATABASE_URL
+        fromDatabase:
+          name: rotayz-postgres
+          property: connectionString
+      - key: DATABASE_SSL
+        value: true
+      - key: DATABASE_SSL_REJECT_UNAUTHORIZED
+        value: false
+      - key: IS_PROXIED
+        value: true
+      - key: STRAPI_PLUGIN_I18N_INIT_LOCALE_CODE
+        value: tr
+      - key: APP_KEYS
+        generateValue: true
+      - key: API_TOKEN_SALT
+        generateValue: true
+      - key: ADMIN_JWT_SECRET
+        generateValue: true
+      - key: TRANSFER_TOKEN_SALT
+        generateValue: true
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ENCRYPTION_KEY
+        generateValue: true
+      - key: INGEST_USER_EMAIL
+        sync: false
+      - key: INGEST_USER_USERNAME
+        sync: false
+      - key: INGEST_USER_PASSWORD
+        sync: false
+    disk:
+      name: rotayz-uploads
+      mountPath: /opt/render/project/src/backend/public/uploads
+      sizeGB: 1
+
+databases:
+  - name: rotayz-postgres

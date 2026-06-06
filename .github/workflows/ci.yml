@@ -1,0 +1,70 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  streamlit-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
+
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+
+      - name: Syntax checks
+        run: |
+          python -m py_compile frontend/app.py
+          python -m py_compile python/rota_yz/config.py
+          python -m py_compile python/rota_yz/frontend_api.py
+          python -m py_compile python/rota_yz/live_snapshot.py
+
+      - name: Run tests
+        run: pytest -q
+
+      - name: Validate live snapshot
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          payload = json.loads(Path("data/live_content.json").read_text(encoding="utf-8"))
+          assert "locales" in payload
+          for locale in ("tr", "en"):
+              localized = payload["locales"][locale]
+              assert len(localized["cities"]) == 6
+              assert len(localized["places"]) == 30
+          print("snapshot ok")
+          PY
+
+      - name: Smoke test Streamlit startup
+        run: |
+          ./run_streamlit_live.sh >streamlit.log 2>&1 &
+          STREAMLIT_PID=$!
+          for _ in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8501 >/dev/null; then
+              echo "streamlit smoke ok"
+              kill "${STREAMLIT_PID}"
+              wait "${STREAMLIT_PID}" || true
+              exit 0
+            fi
+            sleep 2
+          done
+          cat streamlit.log
+          kill "${STREAMLIT_PID}" || true
+          wait "${STREAMLIT_PID}" || true
+          echo "Streamlit smoke test failed" >&2
+          exit 1

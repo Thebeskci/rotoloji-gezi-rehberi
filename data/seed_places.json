@@ -1,0 +1,288 @@
+{
+  "cities": [
+    {
+      "name": "Istanbul",
+      "country": "Turkiye",
+      "short_description": "Istanbul, tarihsel yarimada, bogaz manzaralari ve katmanli mutfak kulturu ile ziyaretcilere yogun bir sehir deneyimi sunar.",
+      "places": [
+        {
+          "name": "Ayasofya",
+          "category": "Tarih",
+          "rating": 4.9,
+          "seed_description": "Ayasofya, Bizans ve Osmanli donemlerini ayni cati altinda birlestiren anitsal bir yapidir.",
+          "source_url": "https://tr.wikipedia.org/wiki/Ayasofya",
+          "wikipedia_title": "Ayasofya"
+        },
+        {
+          "name": "Topkapi Sarayi",
+          "category": "Saray",
+          "rating": 4.8,
+          "seed_description": "Topkapi Sarayi, Osmanli yonetiminin kalbi olarak saray koleksiyonlari ve avlulariyla one cikar.",
+          "source_url": "https://tr.wikipedia.org/wiki/Topkap%C4%B1_Saray%C4%B1",
+          "wikipedia_title": "Topkapi Sarayi"
+        },
+        {
+          "name": "Galata Kulesi",
+          "category": "Manzara",
+          "rating": 4.7,
+          "seed_description": "Galata Kulesi, Hali ve tarihi yarimada manzarasini yukaridan izlemek icin populer bir duraktir.",
+          "source_url": "https://tr.wikipedia.org/wiki/Galata_Kulesi",
+          "wikipedia_title": "Galata Kulesi"
+        },
+        {
+          "name": "Kapalicarsi",
+          "category": "Alisveris",
+          "rating": 4.6,
+          "seed_description": "Kapalicarsi, yuzlerce dukkanin yer aldigi tarihi bir ticaret agi ve canli bir pazar atmosferidir.",
+          "source_url": "https://tr.wikipedia.org/wiki/Kapal%C4%B1%C3%A7ar%C5%9F%C4%B1",
+          "wikipedia_title": "Kapalicarsi"
+        },
+        {
+          "name": "Sultanahmet Meydani",
+          "category": "Meydan",
+          "rating": 4.7,
+          "seed_description": "Sultanahmet Meydani, Istanbul'un anitsal yapilarini yaya odakli bir rotada bir araya getirir.",
+          "source_url": "https://tr.wikipedia.org/wiki/Sultanahmet_Meydan%C4%B1",
+          "wikipedia_title": "Sultanahmet Meydani"
+        }
+      ]
+    },
+    {
+      "name": "Paris",
+      "country": "Fransa",
+      "short_description": "Paris, anitsal mimari, muze koleksiyonlari ve sokak kulturu ile Avrupa'nin en yogun kent deneyimlerinden biridir.",
+      "places": [
+        {
+          "name": "Eyfel Kulesi",
+          "category": "Manzara",
+          "rating": 4.8,
+          "seed_description": "Eyfel Kulesi, Seine kiyisinda yer alan ve Paris siluetini tanimlayan demir bir gozlem yapisidir.",
+          "source_url": "https://tr.wikipedia.org/wiki/Eyfel_Kulesi",
+          "wikipedia_title": "Eyfel Kulesi"
+        },
+        {
+          "name": "Louvre Muzesi",
+          "category": "Muze",
+          "rating": 4.9,
+          "seed_description": "Louvre Muzesi, klasik ve modern koleksiyonlari bir araya getiren devasa bir sanat kompleksidir.",
+          "source_url": "https://tr.wikipedia.org/wiki/Louvre_M%C3%BCzesi",
+          "wikipedia_title": "Louvre Muzesi"
+        },
+        {
+          "name": "Montmartre",
+          "category": "Mahalle",
+          "rating": 4.7,
+          "seed_description": "Montmartre, tepelik sokaklari, ressam meydanlari ve bohem gecmisiyle bilinir.",
+          "source_url": "https://tr.wikipedia.org/wiki/Montmartre",
+          "wikipedia_title": "Montmartre"
+        },
+        {
+          "name": "Notre-Dame Katedrali",
+          "category": "Tarih",
+          "rating": 4.7,
+          "seed_description": "Notre-Dame Katedrali, Gotik detaylari ve Seine adasi konumuyla Paris tarihinin merkezindedir.",
+          "source_url": "https://tr.wikipedia.org/wiki/Notre-Dame_de_Paris",
+          "wikipedia_title": "Notre-Dame de Paris"
+        },
+        {
+          "name": "Seine Nehri",
+          "category": "Nehir",
+          "rating": 4.6,
+          "seed_description": "Seine Nehri, kenti ikiye bolen koridoruyla kopruler, kiyilar ve gece manzaralari sunar.",
+          "source_url": "https://tr.wikipedia.org/wiki/Seine",
+          "wikipedia_title": "Seine"
+        }
+      ]
+    },
+    {
+      "name": "Rome",
+      "country": "Italya",
+      "short_description": "Roma, antik kalintilarin gunluk yasamla ic ice gectigi, yaya odakli ve yogun bir kultur rotasidir.",
+      "places": [
+        {
+          "name": "Kolezyum",
+          "category": "Tarih",
+          "rating": 4.9,
+          "seed_description": "Kolezyum, Roma Imparatorlugu'nun eglence ve gosteri mimarisini simgeleyen dev bir amfitiyatrodur.",
+          "source_url": "https://tr.wikipedia.org/wiki/Kolezyum",
+          "wikipedia_title": "Kolezyum"
+        },
+        {
+          "name": "Trevi Cesmesi",
+          "category": "Cesme",
+          "rating": 4.8,
+          "seed_description": "Trevi Cesmesi, Barok heykel dili ve dar sokaklar arasindaki etkileyici sahnesiyle unlu bir duraktir.",
+          "source_url": "https://tr.wikipedia.org/wiki/Trevi_%C3%87e%C5%9Fmesi",
+          "wikipedia_title": "Trevi Cesmesi"
+        },
+        {
+          "name": "Roma Forumu",
+          "category": "Arkeoloji",
+          "rating": 4.7,
+          "seed_description": "Roma Forumu, antik kamu yapilarinin kalintilari arasinda imparatorluk merkezini hissettirir.",
+          "source_url": "https://tr.wikipedia.org/wiki/Roma_Forumu",
+          "wikipedia_title": "Roma Forumu"
+        },
+        {
+          "name": "Pantheon",
+          "category": "Tapinak",
+          "rating": 4.8,
+          "seed_description": "Pantheon, buyuk kubbesi ve merkezdeki acikligi ile antik muhendisligin en guclu orneklerinden biridir.",
+          "source_url": "https://tr.wikipedia.org/wiki/Pantheon,_Roma",
+          "wikipedia_title": "Pantheon, Roma"
+        },
+        {
+          "name": "Vatikan Muzeleri",
+          "category": "Muze",
+          "rating": 4.7,
+          "seed_description": "Vatikan Muzeleri, dini sanat, haritalar ve Sistina Sapeli'ne uzanan genis bir koleksiyon sunar.",
+          "source_url": "https://tr.wikipedia.org/wiki/Vatikan_M%C3%BCzeleri",
+          "wikipedia_title": "Vatikan Muzeleri"
+        }
+      ]
+    },
+    {
+      "name": "Barcelona",
+      "country": "Ispanya",
+      "short_description": "Barselona, Akdeniz kiyisi ile Gaudi mirasini birlestiren ritmik ve renkli bir sehir deneyimi sunar.",
+      "places": [
+        {
+          "name": "Sagrada Familia",
+          "category": "Mimari",
+          "rating": 4.9,
+          "seed_description": "Sagrada Familia, organik cepheleri ve yukselen kuleleriyle Barselona'nin en taninmis simgesidir.",
+          "source_url": "https://tr.wikipedia.org/wiki/Sagrada_Fam%C3%ADlia",
+          "wikipedia_title": "Sagrada Familia"
+        },
+        {
+          "name": "Park Guell",
+          "category": "Park",
+          "rating": 4.8,
+          "seed_description": "Park Guell, seramik detaylar, teraslar ve sehir manzaralariyla acik hava tasarim laboratuvari gibidir.",
+          "source_url": "https://tr.wikipedia.org/wiki/Park_G%C3%BCell",
+          "wikipedia_title": "Park Guell"
+        },
+        {
+          "name": "Casa Batllo",
+          "category": "Mimari",
+          "rating": 4.7,
+          "seed_description": "Casa Batllo, dalga hissi veren cephesi ve renkli yuzeyiyle modernist tasarimin ikonik bir ornegidir.",
+          "source_url": "https://tr.wikipedia.org/wiki/Casa_Batll%C3%B3",
+          "wikipedia_title": "Casa Batllo"
+        },
+        {
+          "name": "La Rambla",
+          "category": "Bulvar",
+          "rating": 4.5,
+          "seed_description": "La Rambla, sokak performanslari, pazarlar ve yaya akisi ile kentin en canli eksenlerinden biridir.",
+          "source_url": "https://tr.wikipedia.org/wiki/La_Rambla",
+          "image_source_url": "https://es.wikipedia.org/wiki/La_Rambla",
+          "wikipedia_title": "La Rambla"
+        },
+        {
+          "name": "Gotik Mahalle",
+          "category": "Mahalle",
+          "rating": 4.7,
+          "seed_description": "Gotik Mahalle, dar sokaklari ve tarihi yapilariyla Barselona'nin orta caglardaki dokusunu korur.",
+          "source_url": "https://tr.wikipedia.org/wiki/Barri_G%C3%B2tic",
+          "image_source_url": "https://en.wikipedia.org/wiki/Gothic_Quarter,_Barcelona",
+          "wikipedia_title": "Barri Gotic"
+        }
+      ]
+    },
+    {
+      "name": "Tokyo",
+      "country": "Japonya",
+      "short_description": "Tokyo, yogun toplu tasima, tapinaklar, neon caddeler ve duzenli kent yasamini ayni anda sunar.",
+      "places": [
+        {
+          "name": "Senso-ji",
+          "category": "Tapinak",
+          "rating": 4.8,
+          "seed_description": "Senso-ji, Asakusa bolgesinde geleneksel giris kapilari ve canli pazar sokagiyla one cikar.",
+          "source_url": "https://en.wikipedia.org/wiki/Sens%C5%8D-ji",
+          "wikipedia_title": "Sensō-ji"
+        },
+        {
+          "name": "Tokyo Skytree",
+          "category": "Manzara",
+          "rating": 4.7,
+          "seed_description": "Tokyo Skytree, sehrin buyuk olcegini yuksek gozlem platformlarindan okumaya imkan verir.",
+          "source_url": "https://en.wikipedia.org/wiki/Tokyo_Skytree",
+          "wikipedia_title": "Tokyo Skytree"
+        },
+        {
+          "name": "Shibuya Crossing",
+          "category": "Sehir Hayati",
+          "rating": 4.8,
+          "seed_description": "Shibuya Crossing, Tokyo'nun hizli ritmini ve yaya yogunlugunu tek bir kavsakta toplar.",
+          "source_url": "https://en.wikipedia.org/wiki/Shibuya_Crossing",
+          "wikipedia_title": "Shibuya Crossing"
+        },
+        {
+          "name": "Meiji Shrine",
+          "category": "Tapinak",
+          "rating": 4.7,
+          "seed_description": "Meiji Shrine, yogun kentsel dokunun icinde sessiz bir orman koridoru ve seremonik bir rota sunar.",
+          "source_url": "https://en.wikipedia.org/wiki/Meiji_Shrine",
+          "wikipedia_title": "Meiji Shrine"
+        },
+        {
+          "name": "Ueno Park",
+          "category": "Park",
+          "rating": 4.6,
+          "seed_description": "Ueno Park, muze adalari, gol kenari yuruyusleri ve mevsimsel kiraz cicekleriyle bilinir.",
+          "source_url": "https://en.wikipedia.org/wiki/Ueno_Park",
+          "wikipedia_title": "Ueno Park"
+        }
+      ]
+    },
+    {
+      "name": "New York",
+      "country": "Amerika Birlesik Devletleri",
+      "short_description": "New York, gokdelen silueti, mahalle kulturu ve surekli hareket eden kamusal alaniyla yogun bir metropoldur.",
+      "places": [
+        {
+          "name": "Times Square",
+          "category": "Meydan",
+          "rating": 4.6,
+          "seed_description": "Times Square, dijital ekranlari ve surekli akan yaya trafigiyle Manhattan'in en parlak noktalarindan biridir.",
+          "source_url": "https://tr.wikipedia.org/wiki/Times_Square",
+          "wikipedia_title": "Times Square"
+        },
+        {
+          "name": "Central Park",
+          "category": "Park",
+          "rating": 4.9,
+          "seed_description": "Central Park, yogun yapilasmanin ortasinda kosu, piknik ve manzara icin buyuk bir nefes alani saglar.",
+          "source_url": "https://tr.wikipedia.org/wiki/Central_Park",
+          "wikipedia_title": "Central Park"
+        },
+        {
+          "name": "Brooklyn Bridge",
+          "category": "Kopru",
+          "rating": 4.8,
+          "seed_description": "Brooklyn Bridge, Manhattan ve Brooklyn arasinda yuruyerek gecilebilen ikonik bir kopru rotasidir.",
+          "source_url": "https://tr.wikipedia.org/wiki/Brooklyn_K%C3%B6pr%C3%BCs%C3%BC",
+          "wikipedia_title": "Brooklyn Koprusu"
+        },
+        {
+          "name": "Metropolitan Museum of Art",
+          "category": "Muze",
+          "rating": 4.9,
+          "seed_description": "Metropolitan Museum of Art, farkli cografyalardan gelen buyuk koleksiyonlari tek cati altinda toplar.",
+          "source_url": "https://tr.wikipedia.org/wiki/Metropolitan_Sanat_M%C3%BCzesi",
+          "wikipedia_title": "Metropolitan Sanat Muzesi"
+        },
+        {
+          "name": "High Line",
+          "category": "Yuruyus Rotasi",
+          "rating": 4.7,
+          "seed_description": "High Line, eski bir yuk tren hattinin yesil kamusal alana donusturulmesiyle olusan yukseltilmis bir park rotasidir.",
+          "source_url": "https://en.wikipedia.org/wiki/High_Line",
+          "wikipedia_title": "High Line"
+        }
+      ]
+    }
+  ]
+}
