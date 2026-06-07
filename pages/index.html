@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rotoloji</title>
+    <meta
+      name="description"
+      content="Rotoloji, GitHub Pages uzerinde yayinlanan cok dilli editoryal gezi rehberidir."
+    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <aside class="control-rail">
+        <section class="rail-card brand-card">
+          <span class="eyebrow" id="brand-eyebrow">GitHub Pages edition</span>
+          <h1>Rotoloji</h1>
+          <p id="brand-copy"></p>
+        </section>
+
+        <section class="rail-card source-card">
+          <div class="card-label" id="data-status-label"></div>
+          <div class="card-value" id="data-status-value"></div>
+          <p id="data-status-copy"></p>
+          <p class="timestamp" id="generated-at"></p>
+        </section>
+
+        <section class="rail-card">
+          <div class="field-label" id="language-label"></div>
+          <div class="locale-switch" id="locale-switch" aria-label="Language switch">
+            <button class="locale-pill is-active" data-locale="tr" type="button">TR</button>
+            <button class="locale-pill" data-locale="en" type="button">EN</button>
+          </div>
+        </section>
+
+        <section class="rail-card">
+          <label class="field-label" for="city-select" id="city-label"></label>
+          <select id="city-select"></select>
+        </section>
+
+        <section class="rail-card">
+          <div class="field-label" id="category-label"></div>
+          <div class="category-list" id="category-list"></div>
+        </section>
+
+        <section class="rail-card">
+          <div class="range-head">
+            <label class="field-label" for="rating-range" id="rating-label"></label>
+            <span class="range-value" id="rating-value">4.5</span>
+          </div>
+          <input id="rating-range" type="range" min="0" max="5" step="0.1" value="4.5">
+        </section>
+
+        <button class="refresh-button" id="refresh-button" type="button"></button>
+      </aside>
+
+      <main class="content-shell">
+        <div class="hero-grid" id="hero-grid"></div>
+        <div class="metrics-grid" id="metrics-grid"></div>
+        <section class="section-shell" id="curated-shell"></section>
+        <section class="section-shell" id="more-shell"></section>
+      </main>
+    </div>
+  </body>
+</html>

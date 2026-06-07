@@ -1,17 +1,20 @@
-# RotaYZ Gezi Rehberi
+# Rotoloji Gezi Rehberi
 
-RotaYZ, BIP210 final proje beklentilerine gore sifirdan kurulmus cok dilli bir gezi rehberi uygulamasidir. Proje uc katmandan olusur:
+Rotoloji, BIP210 final proje beklentilerine gore sifirdan kurulmus cok dilli bir gezi rehberi uygulamasidir. Proje uc katmandan olusur:
 
 - `backend/`: Strapi 5 uzerinde `City` ve `Place` koleksiyonlari
 - `python/rota_yz/`: veri toplama, ceviri, gorsel uretimi ve Strapi ingest akisi
 - `frontend/app.py`: Streamlit arayuzu
+- `pages/`: GitHub Pages icin statik arayuz kaynagi
 
 ## Klasor Yapisi
 
 - `backend/`: Strapi uygulamasi ve i18n/JWT bootstrap ayarlari
 - `data/seed_places.json`: 6 sehir ve 30 mekanlik cekirdek veri seti
+- `data/live_content.json`: Streamlit ve GitHub Pages tarafinin beslendigi yayin snapshot'i
 - `python/rota_yz/`: ingest ve frontend istemci kodu
 - `frontend/app.py`: kullanici arayuzu
+- `pages/`: GitHub Pages arayuzu
 - `docs/`: rapor ve mimari belgeleri
 
 ## Gereksinimler
@@ -91,6 +94,37 @@ source .venv/bin/activate
 pytest
 ```
 
+## GitHub Pages Yayin
+
+Bu repo, dis sunucu gerektirmeden GitHub Pages uzerinde yayinlanabilecek statik bir Rotoloji arayuzu da icerir.
+
+1. Pages paketini uret:
+
+```bash
+source .venv/bin/activate
+python -m rota_yz.build_pages
+```
+
+2. Istersen yerelde onizle:
+
+```bash
+python -m http.server 8010 -d dist-pages
+```
+
+3. Tarayicida ac:
+
+```text
+http://localhost:8010
+```
+
+Build sonunda `dist-pages/` altinda sunlar olusur:
+
+- `index.html`, `styles.css`, `app.js`
+- `data/tr.json`, `data/en.json`, `data/manifest.json`
+- `assets/cities/*`, `assets/places/*`
+
+Gorseller snapshot icindeki base64 ya da uzak URL kaynaklarindan statik dosyaya cevrilir; boylece Pages tarafinda Streamlit veya Strapi calistirmaya gerek kalmaz.
+
 ## Render Deploy
 
 - `render.yaml` backend web service ve Postgres kaynagini tarif eder.
@@ -115,20 +149,24 @@ pytest
   - paketi yukler
   - testleri calistirir
   - `data/live_content.json` snapshot'ini dogrular
+  - GitHub Pages paketini uretir ve `dist-pages/` smoke testi yapar
   - Streamlit uygulamasini ayaga kaldirip `localhost:8501` smoke testi yapar
+- `/.github/workflows/deploy-pages.yml`
+  - `main` veya `master` branch push'unda statik `dist-pages/` artifact'ini olusturur
+  - resmi `actions/configure-pages`, `actions/upload-pages-artifact` ve `actions/deploy-pages` adimlari ile GitHub Pages yayinini yapar
 - `/.github/workflows/deploy-render.yml`
-  - `main` veya `master` branch push'unda testten sonra Render deploy hook tetikler
+  - yalnizca manuel calisir ve isterse Render deploy hook tetikler
   - su secret'lar eklenirse otomatik deploy calisir:
     - `RENDER_FRONTEND_DEPLOY_HOOK_URL`
     - `RENDER_BACKEND_DEPLOY_HOOK_URL`
 
 ## Normal Yayin
 
-- GitHub Actions tek basina hosting yapmaz; CI/CD saglar.
-- Bu repo icin iki temiz yayin yolu vardir:
-  - Streamlit Community Cloud: en kolay public frontend yayini
-  - Render: `render.yaml` icindeki `rotoloji-streamlit` ve `rotayz-strapi` servisleri ile tam yayin
-- Render kullanacaksan blueprint import et, sonra deploy hook URL'lerini GitHub repo secret'larina gir.
+- Bu repo icin GitHub'a dayali en temiz yayin yolu GitHub Pages'tir.
+- Repo public oldugu surece proje sitesi varsayilan olarak su adreste yayinlanir:
+  - `https://thebeskci.github.io/rotoloji-gezi-rehberi/`
+- Ilk yayin icin repo ayarlarinda `Pages` kaynagini `GitHub Actions` olarak secmek gerekir.
+- Streamlit Cloud ve Render secenekleri hala repoda durur, fakat zorunlu degildir.
 
 ## Strapi'siz Streamlit Modu
 

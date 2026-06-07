@@ -2,10 +2,6 @@ name: deploy-render
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-      - master
 
 jobs:
   verify:

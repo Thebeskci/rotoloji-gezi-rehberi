@@ -50,6 +50,28 @@ jobs:
           print("snapshot ok")
           PY
 
+      - name: Build GitHub Pages bundle
+        run: python -m rota_yz.build_pages
+
+      - name: Smoke test GitHub Pages bundle
+        run: |
+          python -m http.server 8010 -d dist-pages >pages.log 2>&1 &
+          PAGES_PID=$!
+          for _ in $(seq 1 20); do
+            if curl -fsS http://127.0.0.1:8010 >/dev/null; then
+              echo "pages smoke ok"
+              kill "${PAGES_PID}"
+              wait "${PAGES_PID}" || true
+              exit 0
+            fi
+            sleep 1
+          done
+          cat pages.log
+          kill "${PAGES_PID}" || true
+          wait "${PAGES_PID}" || true
+          echo "Pages smoke test failed" >&2
+          exit 1
+
       - name: Smoke test Streamlit startup
         run: |
           ./run_streamlit_live.sh >streamlit.log 2>&1 &

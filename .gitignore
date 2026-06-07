@@ -3,6 +3,7 @@
 .live-venv/
 .pytest_cache/
 .venv/
+dist-pages/
 __pycache__/
 *.pyc
 *.egg-info/
