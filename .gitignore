@@ -15,7 +15,8 @@ backend/.tmp/
 backend/build/
 backend/dist/
 backend/node_modules/
-backend/public/uploads/
+backend/public/uploads/*
+!backend/public/uploads/.gitkeep
 backend/.env
 
 .env
