@@ -52,6 +52,7 @@ def test_translation_falls_back_to_source_text(monkeypatch) -> None:
 def test_image_generator_uses_fallback_when_no_api_key() -> None:
     session = MockSession(
         [
+            requests.RequestException("pollinations unavailable"),
             MockResponse(
                 content=b"png-bytes",
                 headers={"content-type": "image/png"},

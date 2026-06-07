@@ -1,7 +1,9 @@
 flowchart LR
     A["Seed JSON<br/>6 cities / 30 places"] --> B["Python ingest runner"]
+    T["Wikivoyage city guides"] --> B
     W["Wikimedia summaries"] --> B
-    P["Pollinations or fallback image source"] --> B
+    E["Pollinations text enrichment"] --> B
+    P["Pollinations image or fallback source"] --> B
     B --> U["Strapi upload API<br/>Media Library"]
     B --> C["Strapi City collection<br/>TR + EN"]
     B --> D["Strapi Place collection<br/>TR + EN"]

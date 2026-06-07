@@ -4,6 +4,7 @@
       "name": "Istanbul",
       "country": "Turkiye",
       "short_description": "Istanbul, tarihsel yarimada, bogaz manzaralari ve katmanli mutfak kulturu ile ziyaretcilere yogun bir sehir deneyimi sunar.",
+      "travel_guide_url": "https://en.wikivoyage.org/wiki/Istanbul",
       "places": [
         {
           "name": "Ayasofya",
@@ -51,6 +52,7 @@
       "name": "Paris",
       "country": "Fransa",
       "short_description": "Paris, anitsal mimari, muze koleksiyonlari ve sokak kulturu ile Avrupa'nin en yogun kent deneyimlerinden biridir.",
+      "travel_guide_url": "https://en.wikivoyage.org/wiki/Paris",
       "places": [
         {
           "name": "Eyfel Kulesi",
@@ -98,6 +100,7 @@
       "name": "Rome",
       "country": "Italya",
       "short_description": "Roma, antik kalintilarin gunluk yasamla ic ice gectigi, yaya odakli ve yogun bir kultur rotasidir.",
+      "travel_guide_url": "https://en.wikivoyage.org/wiki/Rome",
       "places": [
         {
           "name": "Kolezyum",
@@ -145,6 +148,7 @@
       "name": "Barcelona",
       "country": "Ispanya",
       "short_description": "Barselona, Akdeniz kiyisi ile Gaudi mirasini birlestiren ritmik ve renkli bir sehir deneyimi sunar.",
+      "travel_guide_url": "https://en.wikivoyage.org/wiki/Barcelona",
       "places": [
         {
           "name": "Sagrada Familia",
@@ -194,6 +198,7 @@
       "name": "Tokyo",
       "country": "Japonya",
       "short_description": "Tokyo, yogun toplu tasima, tapinaklar, neon caddeler ve duzenli kent yasamini ayni anda sunar.",
+      "travel_guide_url": "https://en.wikivoyage.org/wiki/Tokyo",
       "places": [
         {
           "name": "Senso-ji",
@@ -241,6 +246,7 @@
       "name": "New York",
       "country": "Amerika Birlesik Devletleri",
       "short_description": "New York, gokdelen silueti, mahalle kulturu ve surekli hareket eden kamusal alaniyla yogun bir metropoldur.",
+      "travel_guide_url": "https://en.wikivoyage.org/wiki/New_York_City",
       "places": [
         {
           "name": "Times Square",

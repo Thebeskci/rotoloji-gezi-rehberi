@@ -7,6 +7,7 @@ dist-pages/
 __pycache__/
 *.pyc
 *.egg-info/
+uv.lock
 
 backend/.cache/
 backend/.strapi/

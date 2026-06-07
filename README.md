@@ -80,12 +80,22 @@ streamlit run frontend/app.py
 `python -m rota_yz.ingest` komutu:
 
 1. seed veri setini yukler
-2. gerekiyorsa Wikimedia ozetini ceker
-3. TR aciklamayi `deep-translator` ile EN'e cevirir
-4. Pollinations ile gorsel uretmeyi dener
-5. hata halinde Wikimedia veya placeholder gorseline duser
-6. gorseli Strapi Media Library'ye yukler
-7. `City` ve `Place` belgelerini `tr` ve `en` locale'lerinde upsert eder
+2. secilen gezi sitesi kaynagi olarak `Wikivoyage` sehir sayfasini okur
+3. her mekan icin sehir rehberi icinden ilgili metin parcacigini bulmaya calisir
+4. gerekiyorsa Wikimedia ozetini destekleyici kaynak olarak ceker
+5. Pollinations text API ile TR aciklamayi editoryal bir gezi notuna genisletir
+6. TR aciklamayi `deep-translator` ile EN'e cevirir
+7. Pollinations ile gorsel uretmeyi dener
+8. hata halinde Wikimedia veya placeholder gorseline duser
+9. gorseli Strapi Media Library'ye yukler
+10. `City` ve `Place` belgelerini `tr` ve `en` locale'lerinde upsert eder
+
+Bu akisin hedefi, final rubric'inde istenen su dordunu birlikte saglamaktir:
+
+- gezi sitesi verisini okumak
+- YZ ile metin zenginlestirmek
+- YZ ile gorsel uretmek
+- JWT ile Strapi Media Library ve koleksiyonlara yazmak
 
 ## Testler
 
@@ -127,11 +137,18 @@ Gorseller snapshot icindeki base64 ya da uzak URL kaynaklarindan statik dosyaya 
 
 ## Render Deploy
 
-- `render.yaml` backend web service ve Postgres kaynagini tarif eder.
-- Render uzerinde blueprint import ederek `rotayz-strapi` servisini olustur.
+- `render.yaml` canli `Strapi + Streamlit + Postgres` topolojisini tarif eder.
+- Render uzerinde blueprint import ederek `rotayz-strapi` ve `rotoloji-streamlit` servislerini birlikte olustur.
 - Disk mount yolu `backend/public/uploads` icin tanimlidir.
-- Deploy sonrasi `INGEST_USER_EMAIL`, `INGEST_USER_USERNAME`, `INGEST_USER_PASSWORD` degiskenlerini gir.
-- Canli veriyi basmak icin lokal ortamdan `STRAPI_URL` degerini Render URL'i ile degistirip ingest komutunu tekrar calistir.
+- Ilk kurulumda Render Dashboard su degerleri ister:
+  - `INGEST_USER_EMAIL`
+  - `INGEST_USER_USERNAME`
+  - `INGEST_USER_PASSWORD`
+  - `PUBLIC_URL`
+  - tercihen `POLLINATIONS_API_KEY`
+  - tercihen `WIKIMEDIA_USER_AGENT`
+- `rotoloji-streamlit` servisi acilisinda backend'in public URL'ini `STRAPI_URL` olarak otomatik alir ve `initialDeployHook` ile ilk ingest'i dener.
+- Ilk ingest bir nedenle atlanirsa daha sonra lokal ortamdan `STRAPI_URL` degerini Render URL'i ile degistirip `python -m rota_yz.ingest` komutunu tekrar calistirabilirsin.
 
 ## Streamlit Cloud Deploy
 
@@ -141,6 +158,15 @@ Gorseller snapshot icindeki base64 ya da uzak URL kaynaklarindan statik dosyaya 
 - Secret veya environment olarak sunlardan birini kullan:
   - `STREAMLIT_DATA_MODE=auto` ve `STRAPI_URL=https://your-strapi-service.onrender.com`
   - veya Strapi olmadan calismasi icin `STREAMLIT_DATA_MODE=snapshot`
+
+## Final Teslim Yolu
+
+BIP210 final teslimi acisindan birincil yayin yolu su ikilidir:
+
+- `Strapi`: Render uzerindeki `rotayz-strapi` servisi
+- `Streamlit`: Render uzerindeki `rotoloji-streamlit` servisi veya Streamlit Community Cloud
+
+GitHub Pages bu repoda yalnizca ek bir statik gosterim secenegidir; final teslimde istenen `Strapi + Streamlit` ciftinin yerini tutmaz.
 
 ## GitHub Actions
 
@@ -160,13 +186,11 @@ Gorseller snapshot icindeki base64 ya da uzak URL kaynaklarindan statik dosyaya 
     - `RENDER_FRONTEND_DEPLOY_HOOK_URL`
     - `RENDER_BACKEND_DEPLOY_HOOK_URL`
 
-## Normal Yayin
+## Ek Yayin
 
-- Bu repo icin GitHub'a dayali en temiz yayin yolu GitHub Pages'tir.
-- Repo public oldugu surece proje sitesi varsayilan olarak su adreste yayinlanir:
+- Repo public oldugu surece statik tanitim sitesi su adreste yayinlanir:
   - `https://thebeskci.github.io/rotoloji-gezi-rehberi/`
-- Ilk yayin icin repo ayarlarinda `Pages` kaynagini `GitHub Actions` olarak secmek gerekir.
-- Streamlit Cloud ve Render secenekleri hala repoda durur, fakat zorunlu degildir.
+- Bu katman final teslimin zorunlu parcasi degildir; destekleyici demonstrasyon katmanidir.
 
 ## Strapi'siz Streamlit Modu
 
@@ -188,5 +212,6 @@ python -m rota_yz.live_snapshot
 
 ## Notlar
 
-- Pollinations API anahtari yoksa uygulama yine calisir; ancak final sunumu icin AI gorsel ciktisini gostermek adina anahtar eklenmesi tavsiye edilir.
+- Pollinations text ve image katmanlari zaman zaman anahtar veya rate-limit davranisi gosterebilir. Final sunumu icin hem metin zenginlestirme hem de gorsel uretimini istikrarli hale getirmek istiyorsan `POLLINATIONS_API_KEY` eklemen gerekir.
 - Gercek deploy linkleri ve giris bilgileri rapor icin manuel olarak doldurulmalidir.
+- Son teslim kontrolu icin [docs/compliance-matrix.md](/Users/thebesikci/Documents/Strapi/docs/compliance-matrix.md) dosyasini kullan.

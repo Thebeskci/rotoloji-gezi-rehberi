@@ -4,9 +4,29 @@ services:
     runtime: python
     buildCommand: pip install -e .
     startCommand: ./run_streamlit_live.sh
+    initialDeployHook: ./scripts/render_seed.sh
     envVars:
       - key: STREAMLIT_DATA_MODE
-        value: snapshot
+        value: api
+      - key: STRAPI_URL
+        fromService:
+          type: web
+          name: rotayz-strapi
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: STRAPI_EMAIL
+        fromService:
+          type: web
+          name: rotayz-strapi
+          envVarKey: INGEST_USER_EMAIL
+      - key: STRAPI_PASSWORD
+        fromService:
+          type: web
+          name: rotayz-strapi
+          envVarKey: INGEST_USER_PASSWORD
+      - key: POLLINATIONS_API_KEY
+        sync: false
+      - key: WIKIMEDIA_USER_AGENT
+        sync: false
   - type: web
     name: rotayz-strapi
     runtime: node
@@ -30,6 +50,8 @@ services:
         value: true
       - key: STRAPI_PLUGIN_I18N_INIT_LOCALE_CODE
         value: tr
+      - key: PUBLIC_URL
+        sync: false
       - key: APP_KEYS
         generateValue: true
       - key: API_TOKEN_SALT

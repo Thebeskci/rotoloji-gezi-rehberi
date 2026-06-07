@@ -40,6 +40,7 @@ def load_seed_dataset(path: Path | None = None) -> list[CitySeed]:
                 name=city_item["name"],
                 country=city_item["country"],
                 short_description=city_item["short_description"],
+                travel_guide_url=city_item.get("travel_guide_url"),
                 slug=city_slug,
                 places=places,
             )
@@ -60,6 +61,9 @@ def validate_seed_dataset(cities: list[CitySeed]) -> None:
             raise ValueError(f"Duplicate city slug: {city.slug}")
 
         city_slugs.add(city.slug)
+
+        if not city.travel_guide_url:
+            raise ValueError(f"City {city.name} must define a travel_guide_url.")
 
         if len(city.places) < 5:
             raise ValueError(f"City {city.name} must have at least 5 places.")

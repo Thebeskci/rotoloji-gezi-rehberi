@@ -21,12 +21,6 @@ class ImageGenerator:
         self.session = session or requests.Session()
 
     def generate(self, prompt: str, fallback_url: str | None = None) -> ImageAsset:
-        if fallback_url and not self.api_key:
-            try:
-                return self._download_image(fallback_url, provider="wikimedia", prompt=prompt)
-            except requests.RequestException:
-                pass
-
         try:
             return self._generate_pollinations(prompt)
         except requests.RequestException:
@@ -43,14 +37,38 @@ class ImageGenerator:
 
     def _generate_pollinations(self, prompt: str) -> ImageAsset:
         encoded_prompt = quote(prompt, safe="")
-        query = "?width=1024&height=576&model=flux&nologo=true"
-        if self.api_key:
-            query += "&private=true"
-        url = f"https://image.pollinations.ai/prompt/{encoded_prompt}{query}"
         headers = {"User-Agent": self.user_agent}
+        endpoints = []
         if self.api_key:
-            headers["Authorization"] = f"Bearer {self.api_key}"
-        response = self.session.get(url, headers=headers, timeout=(10, 25))
+            endpoints.append(
+                (
+                    f"https://gen.pollinations.ai/image/{encoded_prompt}"
+                    "?width=1024&height=576&model=flux&private=true",
+                    {"Authorization": f"Bearer {self.api_key}", **headers},
+                )
+            )
+        endpoints.append(
+            (
+                f"https://image.pollinations.ai/prompt/{encoded_prompt}"
+                "?width=1024&height=576&model=flux&nologo=true",
+                headers,
+            ),
+        )
+
+        response = None
+        last_error: requests.RequestException | None = None
+        for url, request_headers in endpoints:
+            try:
+                response = self.session.get(url, headers=request_headers, timeout=(10, 25))
+                response.raise_for_status()
+                break
+            except requests.RequestException as exc:
+                last_error = exc
+                response = None
+
+        if response is None:
+            raise last_error or requests.RequestException("Pollinations image request failed.")
+
         response.raise_for_status()
         content_type = response.headers.get("content-type", "image/png")
         extension = "jpg" if "jpeg" in content_type else "png"

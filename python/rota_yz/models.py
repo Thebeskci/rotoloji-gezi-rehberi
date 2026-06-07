@@ -20,6 +20,7 @@ class CitySeed:
     name: str
     country: str
     short_description: str
+    travel_guide_url: str | None
     slug: str
     places: list[PlaceSeed]
 

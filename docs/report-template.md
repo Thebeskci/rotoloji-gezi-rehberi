@@ -1,4 +1,4 @@
-# RotaYZ Final Proje Raporu
+# Rotoloji Final Proje Raporu
 
 ## Kapak
 - Proje adi:
@@ -30,9 +30,12 @@
 - City ve Place koleksiyonlarinin ekran goruntuleri
 - TR ve EN locale ayarlarinin ekran goruntusu
 - Media Library ekran goruntuleri
+- Gezi sitesi kaynagi olarak kullanilan `Wikivoyage` sayfa ornekleri
 - Python modullerinin kisa gorev aciklamalari:
   - seed.py
+  - travel_guides.py
   - wikimedia.py
+  - text_enrichment.py
   - translator.py
   - images.py
   - strapi_client.py
@@ -40,6 +43,8 @@
 
 ## Kod Aciklamasi
 - Tek komut ingest akisi nasil calisiyor?
+- Gezi sitesi verisi nereden okunuyor?
+- YZ ile metin zenginlestirme nasil yapiliyor?
 - JWT kimlik dogrulama nasil yapiliyor?
 - Gorseller Media Library'ye nasil yukleniyor?
 - Streamlit locale secimini nasil uyguluyor?

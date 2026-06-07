@@ -101,6 +101,7 @@ const ensureIngestUser = async (strapi) => {
     username,
     email,
     password,
+    provider: 'local',
     confirmed: true,
     blocked: false,
     role: authenticatedRole.id,
