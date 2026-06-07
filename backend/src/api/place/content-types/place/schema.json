@@ -54,6 +54,9 @@
     "generated_prompt": {
       "type": "text"
     },
+    "external_image_url": {
+      "type": "string"
+    },
     "cover_image": {
       "type": "media",
       "multiple": false,

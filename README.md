@@ -46,6 +46,8 @@ cp backend/.env.example backend/.env
 cp .env.example .env
 ```
 
+Varsayilan `STRAPI_MEDIA_MODE=external` ayari, ozellikle Render free deploy'unda gorsellerin servis restart'i sonrasinda kaybolmamasini saglar.
+
 4. Strapi'yi baslat:
 
 ```bash
@@ -87,8 +89,9 @@ streamlit run frontend/app.py
 6. TR aciklamayi `deep-translator` ile EN'e cevirir
 7. Pollinations ile gorsel uretmeyi dener
 8. hata halinde Wikimedia veya placeholder gorseline duser
-9. gorseli Strapi Media Library'ye yukler
-10. `City` ve `Place` belgelerini `tr` ve `en` locale'lerinde upsert eder
+9. `STRAPI_MEDIA_MODE=upload` ise gorseli Strapi Media Library'ye yukler
+10. `STRAPI_MEDIA_MODE=external` ise kalici uzak gorsel URL'ini belgeye yazar
+11. `City` ve `Place` belgelerini `tr` ve `en` locale'lerinde upsert eder
 
 Bu akisin hedefi, final rubric'inde istenen su dordunu birlikte saglamaktir:
 
@@ -138,8 +141,9 @@ Gorseller snapshot icindeki base64 ya da uzak URL kaynaklarindan statik dosyaya 
 ## Render Deploy
 
 - `render.yaml` canli `Strapi + Streamlit + Postgres` topolojisini tarif eder.
-- Render uzerinde blueprint import ederek `rotayz-strapi` ve `rotoloji-streamlit` servislerini birlikte olustur.
-- Disk mount yolu `backend/public/uploads` icin tanimlidir.
+- Render uzerinde blueprint import ederek `rotoloji-strapi` ve `rotoloji-streamlit` servislerini birlikte olustur.
+- Varsayilan Render kurulumu `STRAPI_MEDIA_MODE=external` ile gelir; boylece free plan restart veya spin-down sonrasinda gorseller kaybolmaz.
+- Ucretli disk kullanacaksan `STRAPI_MEDIA_MODE=upload` degerine gecip Strapi Media Library moduna donebilirsin.
 - Ilk kurulumda Render Dashboard su degerleri ister:
   - `INGEST_USER_EMAIL`
   - `INGEST_USER_USERNAME`
@@ -163,7 +167,7 @@ Gorseller snapshot icindeki base64 ya da uzak URL kaynaklarindan statik dosyaya 
 
 BIP210 final teslimi acisindan birincil yayin yolu su ikilidir:
 
-- `Strapi`: Render uzerindeki `rotayz-strapi` servisi
+- `Strapi`: Render uzerindeki `rotoloji-strapi` servisi
 - `Streamlit`: Render uzerindeki `rotoloji-streamlit` servisi veya Streamlit Community Cloud
 
 GitHub Pages bu repoda yalnizca ek bir statik gosterim secenegidir; final teslimde istenen `Strapi + Streamlit` ciftinin yerini tutmaz.

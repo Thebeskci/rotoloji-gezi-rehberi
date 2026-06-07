@@ -2,34 +2,38 @@ services:
   - type: web
     name: rotoloji-streamlit
     runtime: python
+    plan: free
     buildCommand: pip install -e .
     startCommand: ./run_streamlit_live.sh
     initialDeployHook: ./scripts/render_seed.sh
     envVars:
+      - key: STRAPI_MEDIA_MODE
+        value: external
       - key: STREAMLIT_DATA_MODE
         value: api
       - key: STRAPI_URL
         fromService:
           type: web
-          name: rotayz-strapi
+          name: rotoloji-strapi
           envVarKey: RENDER_EXTERNAL_URL
       - key: STRAPI_EMAIL
         fromService:
           type: web
-          name: rotayz-strapi
+          name: rotoloji-strapi
           envVarKey: INGEST_USER_EMAIL
       - key: STRAPI_PASSWORD
         fromService:
           type: web
-          name: rotayz-strapi
+          name: rotoloji-strapi
           envVarKey: INGEST_USER_PASSWORD
       - key: POLLINATIONS_API_KEY
         sync: false
       - key: WIKIMEDIA_USER_AGENT
         sync: false
   - type: web
-    name: rotayz-strapi
+    name: rotoloji-strapi
     runtime: node
+    plan: free
     rootDir: backend
     buildCommand: npm install && npm run build
     startCommand: npm run start
@@ -40,7 +44,7 @@ services:
         value: postgres
       - key: DATABASE_URL
         fromDatabase:
-          name: rotayz-postgres
+          name: rotoloji-postgres
           property: connectionString
       - key: DATABASE_SSL
         value: true
@@ -70,10 +74,7 @@ services:
         sync: false
       - key: INGEST_USER_PASSWORD
         sync: false
-    disk:
-      name: rotayz-uploads
-      mountPath: /opt/render/project/src/backend/public/uploads
-      sizeGB: 1
 
 databases:
-  - name: rotayz-postgres
+  - name: rotoloji-postgres
+    plan: free

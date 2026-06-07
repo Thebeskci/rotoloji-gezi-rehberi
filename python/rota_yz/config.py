@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 VALID_DATA_MODES = {"auto", "api", "snapshot"}
+VALID_MEDIA_MODES = {"external", "upload"}
 
 
 def default_snapshot_path() -> str:
@@ -24,6 +25,7 @@ class Settings:
     pollinations_api_key: str | None = None
     wikimedia_user_agent: str = "RotaYZ/0.1 (student@example.com)"
     streamlit_data_mode: str = "auto"
+    strapi_media_mode: str = "external"
     snapshot_path: str = default_snapshot_path()
 
     @classmethod
@@ -32,6 +34,7 @@ class Settings:
         strapi_email = os.getenv("STRAPI_EMAIL")
         strapi_password = os.getenv("STRAPI_PASSWORD")
         streamlit_data_mode = (os.getenv("STREAMLIT_DATA_MODE", "auto") or "auto").strip().lower()
+        strapi_media_mode = (os.getenv("STRAPI_MEDIA_MODE", "external") or "external").strip().lower()
         snapshot_path = os.getenv("STREAMLIT_SNAPSHOT_PATH") or default_snapshot_path()
 
         if require_auth and (not strapi_email or not strapi_password):
@@ -39,6 +42,10 @@ class Settings:
         if streamlit_data_mode not in VALID_DATA_MODES:
             raise ValueError(
                 f"STREAMLIT_DATA_MODE must be one of {sorted(VALID_DATA_MODES)}."
+            )
+        if strapi_media_mode not in VALID_MEDIA_MODES:
+            raise ValueError(
+                f"STRAPI_MEDIA_MODE must be one of {sorted(VALID_MEDIA_MODES)}."
             )
 
         return cls(
@@ -50,5 +57,6 @@ class Settings:
                 "WIKIMEDIA_USER_AGENT", "RotaYZ/0.1 (student@example.com)"
             ),
             streamlit_data_mode=streamlit_data_mode,
+            strapi_media_mode=strapi_media_mode,
             snapshot_path=snapshot_path,
         )

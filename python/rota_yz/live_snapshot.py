@@ -94,6 +94,7 @@ def _build_locale_payload(
         seed_item = seed_lookup.get(place["slug"], {})
         place["image_url"] = _resolve_image_url(
             current_image_url=place.get("image_url"),
+            external_image_url=place.get("external_image_url"),
             image_source_url=seed_item.get("image_source_url"),
             uploads_root=uploads_root,
         )
@@ -138,6 +139,11 @@ def _fetch_cities(connection: sqlite3.Connection, locale: str) -> list[dict[str,
 
 
 def _fetch_places(connection: sqlite3.Connection, locale: str) -> list[dict[str, Any]]:
+    external_image_select = (
+        "p.external_image_url AS external_image_url"
+        if _has_column(connection, "places", "external_image_url")
+        else "NULL AS external_image_url"
+    )
     query = """
         SELECT
             p.id,
@@ -151,6 +157,7 @@ def _fetch_places(connection: sqlite3.Connection, locale: str) -> list[dict[str,
             p.generated_prompt,
             c.name AS city_name,
             c.slug AS city_slug,
+            {external_image_select},
             f.url AS image_url
         FROM places p
         LEFT JOIN places_city_lnk pcl
@@ -165,7 +172,7 @@ def _fetch_places(connection: sqlite3.Connection, locale: str) -> list[dict[str,
             ON f.id = frm.file_id
         WHERE p.locale = ?
         ORDER BY p.rating DESC, p.name ASC
-    """
+    """.format(external_image_select=external_image_select)
     return [
         {
             "id": row["id"],
@@ -177,6 +184,7 @@ def _fetch_places(connection: sqlite3.Connection, locale: str) -> list[dict[str,
             "category": row["category"],
             "source_url": row["source_url"],
             "generated_prompt": row["generated_prompt"] or "",
+            "external_image_url": row["external_image_url"],
             "image_url": row["image_url"],
             "city_name": row["city_name"],
             "city_slug": row["city_slug"],
@@ -188,9 +196,13 @@ def _fetch_places(connection: sqlite3.Connection, locale: str) -> list[dict[str,
 def _resolve_image_url(
     *,
     current_image_url: str | None,
+    external_image_url: str | None,
     image_source_url: str | None,
     uploads_root: Path,
 ) -> str | None:
+    if external_image_url:
+        return external_image_url
+
     if current_image_url and current_image_url.startswith(("http://", "https://")):
         return current_image_url
 
@@ -204,6 +216,15 @@ def _resolve_image_url(
             return inlined
 
     return current_image_url
+
+
+def _has_column(connection: sqlite3.Connection, table_name: str, column_name: str) -> bool:
+    rows = connection.execute(f"PRAGMA table_info({table_name})").fetchall()
+    for row in rows:
+        name = row["name"] if isinstance(row, sqlite3.Row) else row[1]
+        if name == column_name:
+            return True
+    return False
 
 
 def _inline_local_image(path: Path) -> str | None:

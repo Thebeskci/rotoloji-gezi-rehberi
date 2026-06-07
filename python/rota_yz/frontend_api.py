@@ -71,7 +71,7 @@ class FrontendAPI:
             "category": attrs["category"],
             "source_url": attrs["source_url"],
             "generated_prompt": attrs.get("generated_prompt", ""),
-            "image_url": self._extract_media_url(media),
+            "image_url": attrs.get("external_image_url") or self._extract_media_url(media),
             "city_name": city_attrs.get("name"),
             "city_slug": city_attrs.get("slug"),
         }

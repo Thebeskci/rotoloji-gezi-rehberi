@@ -13,7 +13,7 @@ from rota_yz.localization import localize_place_name
 from rota_yz.seed import load_seed_dataset
 from rota_yz.strapi_client import StrapiClient
 from rota_yz.text_enrichment import AITextEnricher
-from rota_yz.text_utils import build_place_prompt, normalize_text
+from rota_yz.text_utils import build_placeholder_url, build_place_prompt, normalize_text
 from rota_yz.travel_guides import TravelGuideClient
 from rota_yz.translator import TranslationService
 from rota_yz.wikimedia import WikimediaClient
@@ -55,6 +55,64 @@ def _existing_image_id(document: dict | None) -> int | None:
     media_attrs = _get_attrs(media)
     media_id = media_attrs.get("id")
     return int(media_id) if media_id is not None else None
+
+
+def _existing_external_image_url(document: dict | None) -> str | None:
+    attrs = _get_attrs(document)
+    image_url = attrs.get("external_image_url")
+    if not isinstance(image_url, str):
+        return None
+    image_url = image_url.strip()
+    return image_url or None
+
+
+def _select_image_fields(
+    *,
+    media_mode: str,
+    existing_place: dict | None,
+    fallback_url: str | None,
+    prompt: str,
+    image_generator: ImageGenerator,
+    strapi: StrapiClient,
+) -> tuple[dict[str, object], str, bool]:
+    if media_mode == "external":
+        return (
+            {
+                "cover_image": None,
+                "external_image_url": (
+                    _existing_external_image_url(existing_place)
+                    or fallback_url
+                    or build_placeholder_url(prompt)
+                ),
+            },
+            "external-url",
+            False,
+        )
+
+    existing_image_id = _existing_image_id(existing_place)
+    if _is_usable_existing_image(existing_place) and existing_image_id is not None:
+        return (
+            {
+                "cover_image": existing_image_id,
+                "external_image_url": None,
+            },
+            "existing",
+            False,
+        )
+
+    image = image_generator.generate(
+        prompt,
+        fallback_url=fallback_url,
+    )
+    uploaded_image = strapi.upload_image(image)
+    return (
+        {
+            "cover_image": uploaded_image["id"],
+            "external_image_url": None,
+        },
+        image.provider,
+        True,
+    )
 
 
 def _safe_fetch_summary(
@@ -206,8 +264,6 @@ def ingest(seed_path: Path | None = None, city_limit: int | None = None) -> None
             )
             description_en = translator.translate_to_english(description_tr)
             prompt = build_place_prompt(city_name_en, place_name_en, category_en, country_en)
-            provider = "existing"
-            existing_image_id = _existing_image_id(existing_place)
             image_source_url = place.image_source_url or (
                 tr_summary.page_url
                 if tr_summary and tr_summary.page_url
@@ -225,17 +281,14 @@ def ingest(seed_path: Path | None = None, city_limit: int | None = None) -> None
                     source_url=image_source_url,
                 )
             )
-
-            if _is_usable_existing_image(existing_place) and existing_image_id is not None:
-                image_id = existing_image_id
-            else:
-                image = image_generator.generate(
-                    prompt,
-                    fallback_url=fallback_url,
-                )
-                uploaded_image = strapi.upload_image(image)
-                image_id = uploaded_image["id"]
-                provider = image.provider
+            image_fields, provider, should_delay = _select_image_fields(
+                media_mode=settings.strapi_media_mode,
+                existing_place=existing_place,
+                fallback_url=fallback_url,
+                prompt=prompt,
+                image_generator=image_generator,
+                strapi=strapi,
+            )
 
             relation = {"documentId": city_document_id}
             tr_payload = {
@@ -246,8 +299,8 @@ def ingest(seed_path: Path | None = None, city_limit: int | None = None) -> None
                 "category": category_tr,
                 "source_url": source_url or place.source_url,
                 "generated_prompt": prompt,
-                "cover_image": image_id,
                 "city": relation,
+                **image_fields,
             }
             en_payload = {
                 "name": place_name_en,
@@ -257,14 +310,14 @@ def ingest(seed_path: Path | None = None, city_limit: int | None = None) -> None
                 "category": category_en,
                 "source_url": source_url or place.source_url,
                 "generated_prompt": prompt,
-                "cover_image": image_id,
                 "city": relation,
+                **image_fields,
             }
 
             strapi.upsert_place(tr_payload, en_payload)
             created_places += 1
             print(f"[OK] {city.name} / {place.name} -> using {provider}")
-            if provider != "existing":
+            if should_delay:
                 time.sleep(1)
 
     print(f"Completed ingest for {len(cities)} cities and {created_places} places.")
